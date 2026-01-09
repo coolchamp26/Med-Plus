@@ -85,34 +85,6 @@ MedPlus/
 
 ---
 
-## ▶️ How to Run
-
-### 1️⃣ Install Requirements
-
-```bash
-pip install mysql-connector-python
-```
-
-### 2️⃣ Setup MySQL
-
-* Create a database named `MedPlus`
-* Update MySQL credentials in the code:
-
-```python
-host='localhost'
-user='root'
-passwd='1234'
-database='MedPlus'
-```
-
-### 3️⃣ Run the Application
-
-```bash
-python main.py
-```
-
----
-
 ## 🚧 Limitations
 
 Since this was a **Class 12 project**, it has some known limitations:
