@@ -7,29 +7,37 @@ class LoginFrame(BaseFrame):
     def __init__(self, master):
         super().__init__(master)
         
-        # Center container
-        container = ttk.Frame(self)
+        # Add background image
+        self.add_background("image0.png")
+        
+        # Center container - styled as a card
+        container = ttk.Frame(self, style='Card.TFrame', padding=30)
         container.place(relx=0.5, rely=0.5, anchor="center")
         
-        ttk.Label(container, text="Login to MedPlus", style='Header.TLabel').pack(pady=20)
+        ttk.Label(container, text="Login to MedPlus", style='Header.TLabel', background="white").pack(pady=(0, 20))
         
         # Username
-        ttk.Label(container, text="Username").pack(anchor="w")
+        ttk.Label(container, text="Username", style='Card.TLabel').pack(anchor="w")
         self.username_var = tk.StringVar()
-        ttk.Entry(container, textvariable=self.username_var, width=30).pack(pady=(0, 10))
+        ttk.Entry(container, textvariable=self.username_var, width=30, font=('Segoe UI', 10)).pack(pady=(0, 10))
         
         # Password
-        ttk.Label(container, text="Password").pack(anchor="w")
+        ttk.Label(container, text="Password", style='Card.TLabel').pack(anchor="w")
         self.password_var = tk.StringVar()
-        ttk.Entry(container, textvariable=self.password_var, show="*", width=30).pack(pady=(0, 10))
+        ttk.Entry(container, textvariable=self.password_var, show="*", width=30, font=('Segoe UI', 10)).pack(pady=(0, 10))
         
-        # Role Selection (Optional but good for clarity based on original logic)
-        ttk.Label(container, text="Role").pack(anchor="w")
+        # Role Selection
+        ttk.Label(container, text="Role", style='Card.TLabel').pack(anchor="w")
         self.role_var = tk.StringVar(value="USER")
-        role_frame = ttk.Frame(container)
+        role_frame = ttk.Frame(container, style='Card.TFrame')
         role_frame.pack(pady=(0, 20), fill="x")
-        ttk.Radiobutton(role_frame, text="User", variable=self.role_var, value="USER").pack(side="left", padx=10)
-        ttk.Radiobutton(role_frame, text="Admin", variable=self.role_var, value="ADMIN").pack(side="left", padx=10)
+        
+        # Custom style for radio buttons to match card background
+        style = ttk.Style()
+        style.configure('Card.TRadiobutton', background="white", font=('Segoe UI', 10))
+        
+        ttk.Radiobutton(role_frame, text="User", variable=self.role_var, value="USER", style='Card.TRadiobutton').pack(side="left", padx=10)
+        ttk.Radiobutton(role_frame, text="Admin", variable=self.role_var, value="ADMIN", style='Card.TRadiobutton').pack(side="left", padx=10)
         
         # Buttons
         ttk.Button(container, text="Login", command=self.login).pack(fill="x", pady=5)
@@ -46,9 +54,6 @@ class LoginFrame(BaseFrame):
 
         success, message = auth.login(username, password, role)
         if success:
-            # Import here to avoid circular dependency if possible, or organize imports better.
-            # For now, I will assume Dashboard frames are passed or imported.
-            # I'll rely on a method in master (MedPlusApp) to handle navigation after login.
             if hasattr(self.master, 'on_login_success'):
                 self.master.on_login_success(role, username)
             else:
@@ -64,28 +69,34 @@ class RegisterFrame(BaseFrame):
     def __init__(self, master):
         super().__init__(master)
         
-        container = ttk.Frame(self)
+        self.add_background("image0.png")
+        
+        container = ttk.Frame(self, style='Card.TFrame', padding=30)
         container.place(relx=0.5, rely=0.5, anchor="center")
         
-        ttk.Label(container, text="Create Account", style='Header.TLabel').pack(pady=20)
+        ttk.Label(container, text="Create Account", style='Header.TLabel', background="white").pack(pady=(0, 20))
         
         # Username
-        ttk.Label(container, text="Username").pack(anchor="w")
+        ttk.Label(container, text="Username", style='Card.TLabel').pack(anchor="w")
         self.username_var = tk.StringVar()
-        ttk.Entry(container, textvariable=self.username_var, width=30).pack(pady=(0, 10))
+        ttk.Entry(container, textvariable=self.username_var, width=30, font=('Segoe UI', 10)).pack(pady=(0, 10))
         
         # Password
-        ttk.Label(container, text="Password").pack(anchor="w")
+        ttk.Label(container, text="Password", style='Card.TLabel').pack(anchor="w")
         self.password_var = tk.StringVar()
-        ttk.Entry(container, textvariable=self.password_var, show="*", width=30).pack(pady=(0, 10))
+        ttk.Entry(container, textvariable=self.password_var, show="*", width=30, font=('Segoe UI', 10)).pack(pady=(0, 10))
         
         # Role
-        ttk.Label(container, text="Role").pack(anchor="w")
+        ttk.Label(container, text="Role", style='Card.TLabel').pack(anchor="w")
         self.role_var = tk.StringVar(value="USER")
-        role_frame = ttk.Frame(container)
+        role_frame = ttk.Frame(container, style='Card.TFrame')
         role_frame.pack(pady=(0, 20), fill="x")
-        ttk.Radiobutton(role_frame, text="User", variable=self.role_var, value="USER").pack(side="left", padx=10)
-        ttk.Radiobutton(role_frame, text="Admin", variable=self.role_var, value="ADMIN").pack(side="left", padx=10)
+        
+        style = ttk.Style()
+        style.configure('Card.TRadiobutton', background="white", font=('Segoe UI', 10))
+        
+        ttk.Radiobutton(role_frame, text="User", variable=self.role_var, value="USER", style='Card.TRadiobutton').pack(side="left", padx=10)
+        ttk.Radiobutton(role_frame, text="Admin", variable=self.role_var, value="ADMIN", style='Card.TRadiobutton').pack(side="left", padx=10)
         
         # Buttons
         ttk.Button(container, text="Register", command=self.register).pack(fill="x", pady=5)

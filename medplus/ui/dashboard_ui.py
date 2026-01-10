@@ -8,19 +8,33 @@ class UserDashboardFrame(BaseFrame):
         super().__init__(master)
         self.username = username
         
-        # Navbar / Header
-        header = ttk.Frame(self, padding=10, style='TFrame')
-        header.pack(fill="x")
-        ttk.Label(header, text=f"Welcome, {username}", style='SubHeader.TLabel').pack(side="left")
+        self.add_background("pills.png")
+        
+        # Navbar / Header - Semi-transparent logic or solid for readability
+        # Using a frame pack(side=top) pushes the canvas down if not careful? 
+        # Wait, BaseFrame packs itself. Canvas is placed.
+        # So pack/place widgets on TOP of canvas.
+        
+        # Header
+        header = ttk.Frame(self, padding=10, style='Card.TFrame') # Use Card style for white background
+        header.pack(fill="x", pady=(20,0), padx=20)
+        
+        ttk.Label(header, text=f"Welcome, {username}", style='SubHeader.TLabel', background="white").pack(side="left")
         ttk.Button(header, text="Logout", command=self.logout).pack(side="right")
         
         # Main Content Area
-        content = ttk.Frame(self, padding=20)
-        content.pack(fill="both", expand=True)
+        # We want the background to show, so we might not want a big opaque frame filling everything.
+        # But BaseFrame init packed itself. widgets inside pack into self.
         
-        # Grid layout for menu buttons
-        btn_frame = ttk.Frame(content)
+        content = tk.Frame(self, bg=self.master.bg_color) 
+        # Actually lets make content frame transparent (tkinter frame default is opaque usually, but can be managed)
+        # Instead, let's just place the button container in the center on top of background
+        
+        # Grid layout for menu buttons - Center Card
+        btn_frame = ttk.Frame(self, style='Card.TFrame', padding=30)
         btn_frame.place(relx=0.5, rely=0.5, anchor="center")
+        
+        ttk.Label(btn_frame, text="Dashboard Menu", style='SubHeader.TLabel', background="white").pack(pady=(0,20))
         
         ttk.Button(btn_frame, text="View Hospital Map", command=self.show_map, width=30).pack(pady=10)
         ttk.Button(btn_frame, text="My Personal Contacts", command=self.manage_contacts, width=30).pack(pady=10)
@@ -47,18 +61,20 @@ class AdminDashboardFrame(BaseFrame):
         super().__init__(master)
         self.username = username
         
+        self.add_background("pills.png")
+        
         # Header
-        header = ttk.Frame(self, padding=10)
-        header.pack(fill="x")
-        ttk.Label(header, text=f"Admin Dashboard ({username})", style='SubHeader.TLabel').pack(side="left")
+        header = ttk.Frame(self, padding=10, style='Card.TFrame')
+        header.pack(fill="x", pady=(20,0), padx=20)
+        
+        ttk.Label(header, text=f"Admin Dashboard ({username})", style='SubHeader.TLabel', background="white").pack(side="left")
         ttk.Button(header, text="Logout", command=self.logout).pack(side="right")
         
-        # Content
-        content = ttk.Frame(self, padding=20)
-        content.pack(fill="both", expand=True)
-        
-        btn_frame = ttk.Frame(content)
+        # Content - Center Card
+        btn_frame = ttk.Frame(self, style='Card.TFrame', padding=30)
         btn_frame.place(relx=0.5, rely=0.5, anchor="center")
+        
+        ttk.Label(btn_frame, text="Administration", style='SubHeader.TLabel', background="white").pack(pady=(0,20))
         
         ttk.Button(btn_frame, text="Manage Hospitals", command=self.manage_hospitals, width=30).pack(pady=10)
         # Original had specific Add/Delete/Modify buttons. A unified Manager is better.
